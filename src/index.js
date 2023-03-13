@@ -9,17 +9,56 @@ const searchBox = document.querySelector('#search-box');
 const countrylist = document.querySelector('.country-list');
 const countryInfo = document.querySelector('.country-info');
 
-// searchBox.addEventListener('input', handleSearch);
 searchBox.addEventListener('input', debounce(handleSearch, DEBOUNCE_DELAY));
-
-let serchValue = '';
 
 function handleSearch(evt) {
   evt.preventDefault();
 
-  const serchValue = evt.target.value.tolowerCase().trim();
+  const searchValue = evt.target.value.toLowerCase().trim();
 
-  fetchCountries(serchValue).then(renderCountry);
+  fetchCountries(searchValue)
+    .then(countriesData => {
+      Notiflix.Loading.dots('loading...');
+
+      if (countriesData === undefined) {
+        return;
+      }
+
+      if (countriesData.length > 10) {
+        Notiflix.Loading.remove();
+        Notiflix.Notify.info(
+          'Too many matches found. Please enter a more specific name.'
+        );
+
+        return;
+      }
+      if (countriesData.length >= 2 && countriesData.length < 10) {
+        renderCauntriesCard(countriesData);
+        Notiflix.Loading.remove();
+
+        return;
+      }
+      if (countriesData.length === 1) {
+        console.log(countriesData);
+
+        countrylist.innerHTML = '';
+        renderCountry(countriesData);
+        renderUkraine(countriesData);
+        Notiflix.Loading.remove();
+
+        return;
+      }
+    })
+    .catch(error => {
+      if (searchValue.length === 0) {
+        Notiflix.Notify.info('Please start typing');
+        countryInfo.innerHTML = '';
+        countrylist.innerHTML = '';
+        return;
+      }
+      Notiflix.Notify.failure('Oops, there is no country with that name');
+      Notiflix.Loading.remove();
+    });
 }
 
 function renderCountry(countriesData) {
@@ -35,7 +74,6 @@ function renderCountry(countriesData) {
       return `
        <div class='country'>
 
-         
          <img src="${svg}" alt="flag ${official}" width='30px' height='20px'>
          <h1>${official}</h1>
          </div>
@@ -43,7 +81,6 @@ function renderCountry(countriesData) {
          <p> population: ${population}</p>
          <p>languages: ${Object.values(languages).join(', ')}</p>
 
-       
         `;
     })
     .join('');
@@ -59,36 +96,27 @@ function renderCauntriesCard(countriesData) {
         flags: { svg },
       } = elem;
       return `
-    <li>
+    <div class='country'>
 
-     <img src="${svg}" alt="flag ${official}" width='30px' height='20px'>
-         <h1>${official}</h1>
+            <img src="${svg}" alt="flag ${official}" width='30px' height='20px'>
+            <h1>${official}</h1>
 
-    </li>
+           </div>
+            </li>
     `;
     })
     .join('');
   countrylist.innerHTML = countriesLyst;
 }
 
-// =======================
-// function handleSearch(evt) {
-//   evt.preventDefault();
+function renderUkraine(countriesData) {
+  const ukraine = countriesData.map(elem => {
+    if (elem.name.official === 'Ukraine') {
+      const rendUkraine = '<p class="ukraine">Be brave like Ukraine!</p>';
 
-//   const searchValue = evt.target.value.trim();
+      countryInfo.insertAdjacentHTML('beforeend', rendUkraine);
 
-//   fetchCountries(searchValue).then(countriesData => {
-//     if (countriesData.length >= 2 && countriesData.length <= 10) {
-//       renderCauntriesCard(countriesData);
-//       countryInfo.innerHTML = '';
-//     } else if (countriesData.length === 1) {
-//       renderCountry(countriesData);
-//     } else {
-//       Notiflix.Notify.info(
-//         'Too many matches found. Please enter a more specific name.'
-//       );
-//       countryInfo.innerHTML = '';
-//       countrylist.innerHTML = '';
-//     }
-//   });
-// }
+      Notiflix.Notify.success('Be brave like Ukraine!');
+    }
+  });
+}
