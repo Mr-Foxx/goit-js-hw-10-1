@@ -37,7 +37,7 @@ function handleSearch(evt) {
 
         return;
       }
-      if (countriesData.length > 2 && countriesData.length <= 10) {
+      if (countriesData.length >= 2 && countriesData.length <= 10) {
         renderCauntriesCard(countriesData);
         Notiflix.Loading.remove();
 
