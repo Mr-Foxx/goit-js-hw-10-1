@@ -104,6 +104,7 @@ function renderCauntriesCard(countriesData) {
     `;
     })
     .join('');
+  const countrylist = document.querySelector('.country-list');
   countrylist.innerHTML = countriesLyst;
 }
 
