@@ -16,13 +16,18 @@ function handleSearch(evt) {
 
   const searchValue = evt.target.value.toLowerCase().trim();
 
+  handleClearForm();
+
+  if (searchValue === '') {
+    Notiflix.Notify.info('Please start typing');
+    handleClearForm();
+    return;
+  }
+
   fetchCountries(searchValue)
     .then(countriesData => {
+      console.log(countriesData);
       Notiflix.Loading.dots('loading...');
-
-      if (countriesData === undefined) {
-        return;
-      }
 
       if (countriesData.length > 10) {
         Notiflix.Loading.remove();
@@ -32,15 +37,13 @@ function handleSearch(evt) {
 
         return;
       }
-      if (countriesData.length >= 2 && countriesData.length < 10) {
+      if (countriesData.length > 2 && countriesData.length <= 10) {
         renderCauntriesCard(countriesData);
         Notiflix.Loading.remove();
 
         return;
       }
       if (countriesData.length === 1) {
-        console.log(countriesData);
-
         countrylist.innerHTML = '';
         renderCountry(countriesData);
         renderUkraine(countriesData);
@@ -50,12 +53,6 @@ function handleSearch(evt) {
       }
     })
     .catch(error => {
-      if (searchValue.length === 0) {
-        Notiflix.Notify.info('Please start typing');
-        countryInfo.innerHTML = '';
-        countrylist.innerHTML = '';
-        return;
-      }
       Notiflix.Notify.failure('Oops, there is no country with that name');
       Notiflix.Loading.remove();
     });
@@ -119,4 +116,9 @@ function renderUkraine(countriesData) {
       Notiflix.Notify.success('Be brave like Ukraine!');
     }
   });
+}
+
+function handleClearForm() {
+  countryInfo.innerHTML = '';
+  countrylist.innerHTML = '';
 }
