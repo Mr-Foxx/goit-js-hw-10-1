@@ -71,7 +71,7 @@ function renderCountry(countriesData) {
       return `
        <div class='country'>
 
-         <img src="${svg}" alt="flag ${official}" width='30' height='20'>
+         <img src="${svg}" alt="flag ${official}" width='30' height='20'/>
          <h1>${official}</h1>
          </div>
          <p>capital: ${capital}</p>
@@ -95,7 +95,7 @@ function renderCauntriesCard(countriesData) {
       return `
     <div class='country'>
 
-            <img src="${svg}" alt="flag ${official}" width='30px' height='20px'>
+            <img src="${svg}" alt="flag ${official}" width='30' height='20'/>
             <h1>${official}</h1>
 
            </div>
