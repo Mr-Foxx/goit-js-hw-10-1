@@ -100,7 +100,6 @@ function renderCauntriesCard(countriesData) {
             <h1>${official}</h1>
 
            </div>
-            </li>
     `;
     })
     .join('');
