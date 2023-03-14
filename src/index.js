@@ -12,7 +12,7 @@ const countryInfo = document.querySelector('.country-info');
 searchBox.addEventListener('input', debounce(handleSearch, DEBOUNCE_DELAY));
 
 function handleSearch(evt) {
-  evt.preventDefault();
+  // evt.preventDefault();
 
   const searchValue = evt.target.value.toLowerCase().trim();
 
