@@ -54,6 +54,7 @@ function handleSearch(evt) {
       }
     })
     .catch(error => {
+      console.log('error', error);
       Notiflix.Notify.failure('Oops, there is no country with that name');
       Notiflix.Loading.remove();
     });
