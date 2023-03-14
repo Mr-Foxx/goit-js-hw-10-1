@@ -88,7 +88,7 @@ function renderCountry(countriesData) {
 }
 
 function renderCauntriesCard(countriesData) {
-  countriesLyst = countriesData
+  const countriesLyst = countriesData
     .map(elem => {
       const {
         name: { official },
@@ -104,7 +104,7 @@ function renderCauntriesCard(countriesData) {
     `;
     })
     .join('');
-  const countrylist = document.querySelector('.country-list');
+  //const countrylist = document.querySelector('.country-list');
   countrylist.innerHTML = countriesLyst;
 }
 
