@@ -95,10 +95,10 @@ function renderCauntriesCard(countriesData) {
       } = elem;
       return `
     <div class='country'>
-
+<li>
             <img src="${svg}" alt="flag ${official}" width='30' height='20'/>
             <h1>${official}</h1>
-
+</li>
            </div>
     `;
     })
