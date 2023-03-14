@@ -71,10 +71,10 @@ function renderCountry(countriesData) {
       return `
        <div class='country'>
 
-         <img src="${svg}" alt="flag ${official}" width='30px' height='20px'>
+         <img src="${svg}" alt="flag ${official}" width='30' height='20'>
          <h1>${official}</h1>
          </div>
-         <p>capital: ${capital.join('')}</p>
+         <p>capital: ${capital}</p>
          <p> population: ${population}</p>
          <p>languages: ${Object.values(languages).join(', ')}</p>
 
