@@ -11,9 +11,7 @@ const countryInfo = document.querySelector('.country-info');
 
 searchBox.addEventListener('input', debounce(handleSearch, DEBOUNCE_DELAY));
 
-function handleSearch(evt) {
-  // evt.preventDefault();
-
+async function handleSearch(evt) {
   const searchValue = evt.target.value.toLowerCase().trim();
 
   handleClearForm();
@@ -24,40 +22,43 @@ function handleSearch(evt) {
     return;
   }
 
-  fetchCountries(searchValue)
-    .then(countriesData => {
-      console.log(countriesData);
-      Notiflix.Loading.dots('loading...');
+  try {
+    const countriesData = await fetchCountries(searchValue);
 
-      if (countriesData.length > 10) {
-        Notiflix.Loading.remove();
-        Notiflix.Notify.info(
-          'Too many matches found. Please enter a more specific name.'
-        );
+    console.log(countriesData);
 
-        return;
-      }
-      console.log(countriesData.length);
-      if (countriesData.length >= 2 && countriesData.length <= 10) {
-        renderCauntriesCard(countriesData);
-        Notiflix.Loading.remove();
+    Notiflix.Loading.dots('loading...');
 
-        return;
-      }
-      if (countriesData.length === 1) {
-        countrylist.innerHTML = '';
-        renderCountry(countriesData);
-        renderUkraine(countriesData);
-        Notiflix.Loading.remove();
-
-        return;
-      }
-    })
-    .catch(error => {
-      console.log('error', error);
-      Notiflix.Notify.failure('Oops, there is no country with that name');
+    if (countriesData.length > 10) {
       Notiflix.Loading.remove();
-    });
+      Notiflix.Notify.info(
+        'Too many matches found. Please enter a more specific name.'
+      );
+
+      return;
+    }
+
+    // console.log(countriesData.length);
+
+    if (countriesData.length >= 2 && countriesData.length <= 10) {
+      renderCauntriesCard(countriesData);
+      Notiflix.Loading.remove();
+
+      return;
+    }
+    if (countriesData.length === 1) {
+      countrylist.innerHTML = '';
+      renderCountry(countriesData);
+      renderUkraine(countriesData);
+      Notiflix.Loading.remove();
+
+      return;
+    }
+  } catch (error) {
+    console.log(error);
+    Notiflix.Notify.failure('Oops, there is no country with that name');
+    Notiflix.Loading.remove();
+  }
 }
 
 function renderCountry(countriesData) {

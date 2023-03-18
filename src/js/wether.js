@@ -7,18 +7,49 @@ const searchInput = document.querySelector('#search-input');
 const base_url = 'https://api.weatherapi.com/v1/forecast.json';
 const API_KEY = '0bf0e468e84a4f78877202940231303';
 
-function fetchWeather(capital) {
-  return fetch(`${base_url}?key=${API_KEY}&q=${capital}&days=7`)
-    .then(response => {
-      if (!response.ok) {
-        throw new Error(response.status);
-      }
-      return response.json();
-    })
-    .then(data => {
-      console.log(data);
-      return data;
-    });
+searchForm.addEventListener('submit', searchWeather);
+
+function searchWeather(event) {
+  event.preventDefault();
+  const city = searchInput.value.trim();
+  if (city) {
+    fetchWeather(city)
+      .then(weatherData => {
+        renderCurrentWeather(weatherData);
+
+        searchInput.value = '';
+      })
+      .catch(error => {
+        console.error(error);
+      });
+  }
+}
+
+// function fetchWeather(capital) {
+//   return fetch(`${base_url}?key=${API_KEY}&q=${capital}&days=7`)
+//     .then(response => {
+//       if (!response.ok) {
+//         throw new Error(response.status);
+//       }
+//       return response.json();
+//     })
+//     .then(data => {
+//       console.log(data);
+//       return data;
+//     });
+// }
+
+async function fetchWeather(capital) {
+  const response = await fetch(
+    `${base_url}?key=${API_KEY}&q=${capital}&days=7`
+  );
+
+  if (!response.ok) {
+    throw new Error(response.status);
+  }
+
+  const data = await response.json();
+  return data;
 }
 
 function renderCurrentWeather(weatherData) {
@@ -36,29 +67,14 @@ function renderCurrentWeather(weatherData) {
   weatherContainer.innerHTML = currentWeatherHTML;
 }
 
-function searchWeather(event) {
-  event.preventDefault();
-  const city = searchInput.value.trim();
-  if (city) {
-    fetchWeather(city)
-      .then(weatherData => {
-        renderCurrentWeather(weatherData);
-        renderWeatherList(weatherData);
-        searchInput.value = '';
-      })
-      .catch(error => {
-        console.error(error);
-      });
-  }
-}
-
-searchForm.addEventListener('submit', searchWeather);
-
 // ==================================================
+// ===================================================
 
 //  при завантажування відображається температурв Київ
 
-// const watherContainer = document.querySelector('.wather-container');
+const watherContainer = document.querySelector('.weather-container');
+
+// ===========оригінал===========
 
 // function weatherFetch() {
 //   const base_url = 'https://api.weatherapi.com/v1/forecast.json';
@@ -79,21 +95,65 @@ searchForm.addEventListener('submit', searchWeather);
 //     });
 // }
 
-// function renderWeather(resposeWather) {
-//   const watherCapitalCurrent = `
+// ========переписав na async=======
 
-//     <div class="wather-info-capital">
-//       <h2>${resposeWather.location.name}, ${resposeWather.location.region}, ${resposeWather.location.country}</h2>
-//     <h2>Local time:<br> ${resposeWather.location.localtime}</h2>
-//         <h3> Current Wather: <br> ${resposeWather.current.condition.text}</h3>
-//         <img src="https:${resposeWather.current.condition.icon}" alt="${resposeWather.current.condition.text}"  width='50px'>
-//         <p>Temp today: ${resposeWather.current.temp_c} </p>
-//         <p>feelslike:  ${resposeWather.current.feelslike_c} </p>
-//         <p>last updated:  ${resposeWather.current.last_updated} </p>
-//     </div>
+// async function weatherFetch() {
+//   const base_url = 'https://api.weatherapi.com/v1/forecast.json';
+//   const capital = 'Kiev';
 
-//     `;
+//   const response = await fetch(
+//     `${base_url}?key=0bf0e468e84a4f78877202940231303&q=${capital}&days=7`
+//   );
 
-//   watherContainer.innerHTML = watherCapitalCurrent;
+//   if (!response.ok) {
+//     throw new Error(response.status);
+//   }
+
+//   const data = await response.json();
+//   console.log(data);
+//   renderWeather(data);
+//   return data;
 // }
-// weatherFetch();
+
+// ===========async + try==============
+
+async function weatherFetch() {
+  const base_url = 'https://api.weatherapi.com/v1/forecast.json';
+  const capital = 'Kiev';
+
+  try {
+    const response = await fetch(
+      `${base_url}?key=0bf0e468e84a4f78877202940231303&q=${capital}&days=7`
+    );
+
+    if (!response.ok) {
+      throw new Error(response.status);
+    }
+
+    const data = await response.json();
+    console.log(data);
+    renderWeather(data);
+    return data;
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+function renderWeather(resposeWather) {
+  const watherCapitalCurrent = `
+
+    <div class="wather-info-capital">
+      <h2>${resposeWather.location.name}, ${resposeWather.location.region}, ${resposeWather.location.country}</h2>
+    <h2>Local time:<br> ${resposeWather.location.localtime}</h2>
+        <h3> Current Wather: <br> ${resposeWather.current.condition.text}</h3>
+        <img src="https:${resposeWather.current.condition.icon}" alt="${resposeWather.current.condition.text}"  width='50px'>
+        <p>Temp today: ${resposeWather.current.temp_c} </p>
+        <p>feelslike:  ${resposeWather.current.feelslike_c} </p>
+        <p>last updated:  ${resposeWather.current.last_updated} </p>
+    </div>
+
+    `;
+
+  watherContainer.innerHTML = watherCapitalCurrent;
+}
+weatherFetch();
