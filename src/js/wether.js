@@ -117,43 +117,43 @@ const watherContainer = document.querySelector('.weather-container');
 
 // ===========async + try==============
 
-async function weatherFetch() {
-  const base_url = 'https://api.weatherapi.com/v1/forecast.json';
-  const capital = 'Kiev';
+// async function weatherFetch() {
+//   const base_url = 'https://api.weatherapi.com/v1/forecast.json';
+//   const capital = 'Kiev';
 
-  try {
-    const response = await fetch(
-      `${base_url}?key=0bf0e468e84a4f78877202940231303&q=${capital}&days=7`
-    );
+//   try {
+//     const response = await fetch(
+//       `${base_url}?key=0bf0e468e84a4f78877202940231303&q=${capital}&days=7`
+//     );
 
-    if (!response.ok) {
-      throw new Error(response.status);
-    }
+//     if (!response.ok) {
+//       throw new Error(response.status);
+//     }
 
-    const data = await response.json();
-    console.log(data);
-    renderWeather(data);
-    return data;
-  } catch (error) {
-    console.log(error);
-  }
-}
+//     const data = await response.json();
+//     console.log(data);
+//     renderWeather(data);
+//     return data;
+//   } catch (error) {
+//     console.log(error);
+//   }
+// }
 
-function renderWeather(resposeWather) {
-  const watherCapitalCurrent = `
+// function renderWeather(resposeWather) {
+//   const watherCapitalCurrent = `
 
-    <div class="wather-info-capital">
-      <h2>${resposeWather.location.name}, ${resposeWather.location.region}, ${resposeWather.location.country}</h2>
-    <h2>Local time:<br> ${resposeWather.location.localtime}</h2>
-        <h3> Current Wather: <br> ${resposeWather.current.condition.text}</h3>
-        <img src="https:${resposeWather.current.condition.icon}" alt="${resposeWather.current.condition.text}"  width='50px'>
-        <p>Temp today: ${resposeWather.current.temp_c} </p>
-        <p>feelslike:  ${resposeWather.current.feelslike_c} </p>
-        <p>last updated:  ${resposeWather.current.last_updated} </p>
-    </div>
+//     <div class="wather-info-capital">
+//       <h2>${resposeWather.location.name}, ${resposeWather.location.region}, ${resposeWather.location.country}</h2>
+//     <h2>Local time:<br> ${resposeWather.location.localtime}</h2>
+//         <h3> Current Wather: <br> ${resposeWather.current.condition.text}</h3>
+//         <img src="https:${resposeWather.current.condition.icon}" alt="${resposeWather.current.condition.text}"  width='50px'>
+//         <p>Temp today: ${resposeWather.current.temp_c} </p>
+//         <p>feelslike:  ${resposeWather.current.feelslike_c} </p>
+//         <p>last updated:  ${resposeWather.current.last_updated} </p>
+//     </div>
 
-    `;
+//     `;
 
-  watherContainer.innerHTML = watherCapitalCurrent;
-}
-weatherFetch();
+//   watherContainer.innerHTML = watherCapitalCurrent;
+// }
+// weatherFetch();

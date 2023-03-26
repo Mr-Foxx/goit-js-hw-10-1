@@ -10,13 +10,15 @@ body {
   background-color: #fafafa;
   color: #212121;
   line-height: 1.5;
+  background-image: url(../images/wheat-7852286_1920.jpg);
+  background-repeat: no-repeat;
+  background-size: cover;
 }
 
 #search-box {
   font: inherit;
   padding: 8px;
   max-width: 400px;
-  margin-bottom: 16px;
 }
 
 input {
@@ -63,4 +65,42 @@ input {
   box-shadow: inset 0 0 10px 5px rgba(226, 226, 223, 0.3);
   width: 400px;
   padding-left: 5px;
+}
+
+#clear-search-box-btn {
+  filter: brightness(2);
+  border: none;
+  cursor: pointer;
+  border-radius: 10px;
+  position: relative;
+  left: -30px;
+  width: 20px;
+  height: 20px;
+  background-image: url(../images/1904654-cancel-close-cross-delete-reject-remove-stop_122504.svg);
+}
+
+#clear-search-box-btn:hover {
+  filter: brightness(1);
+  background-color: rgb(233, 230, 232);
+}
+
+.input-containier {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 150px;
+}
+
+.button-countainer {
+  display: flex;
+  justify-content: center;
+}
+
+.btn-submit {
+  border-radius: 10px;
+  border: 1px solid rgb(225, 224, 224);
+  background-color: #fafafa;
+  box-shadow: inset 0 0 10px 5px rgba(226, 226, 223, 0.3);
+  display: flex;
+  margin-top: 10px;
 }

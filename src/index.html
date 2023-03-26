@@ -7,26 +7,30 @@
     <title>Homework 10</title>
   </head>
   <body>
-    <input type="text" id="search-box" placeholder="Enter Ukraine " />
+    <div class="input-containier">
+      <div>
+        <input type="text" id="search-box" placeholder="Enter Ukraine " />
+        <button id="clear-search-box-btn" type="button"></button>
+        <div class="info-conteiner">
+          <ul class="country-list"></ul>
+          <div class="country-info"></div>
+        </div>
 
-    <div class="info-conteiner">
-      <ul class="country-list"></ul>
-      <div class="country-info"></div>
-    </div>
+        <div class="weather-container"></div>
+        <div class="wather-list-container">
+          <ul class="weather-list"></ul>
+        </div>
 
-    <div class="weather-container"></div>
-    <div class="wather-list-container">
-      <ul class="weather-list"></ul>
-    </div>
+        <!-- розмітка для погоди під форму -->
 
-    <!-- розмітка для погоди під форму -->
-
-    <div class="weather-container"></div>
-    <div class="weather-list-container">
-      <form id="search-form">
-        <input type="text" id="search-input" placeholder="Enter Kiev..." />
-        <button type="submit">Пошук</button>
-      </form>
+        <div class="weather-container"></div>
+        <div class="weather-list-container">
+          <form id="search-form">
+            <input type="text" id="search-input" placeholder="Enter Kiev..." />
+            <button class="btn-submit" type="submit">Пошук</button>
+          </form>
+        </div>
+      </div>
     </div>
 
     <script src="index.js" type="module"></script>
